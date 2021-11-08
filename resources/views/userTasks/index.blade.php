@@ -34,17 +34,18 @@
                         <p class="card-text">Task not completed.</p>
                     @endif
                 </div>
-                <form>
-                    <a href="{{route('userTasks.edit',[$task->id,$task->user_id])}}" class="btn btn-primary">Edit   Task</a>
-                </form>
-                <form method="POST" action="{{route('userTasks.destroy',$task->id)}}">
+                <a href="{{route('userTasks.edit',$task->id)}}" class="btn btn-primary">Edit Task</a>
+                <a href="{{route('userTasks.delete',$task->id)}}" class="btn btn-primary">Delete Task</a>
+                {{-- <form method="POST" action="{{route('userTasks.destroy',$task->id)}}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-primary">Delete Task</button>
-                </form>
+                </form> --}}
             </div>
             @endforeach
-            <a href="{{route('userTasks.create',$id)}}" class="btn btn-primary">Create Tasks</a>
+            <a href="{{route('userTasks.create',$id)}}" class="btn btn-primary mt-5">Create Tasks</a>
         </div>
+
+          
     </body>
 </html>

@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function userTasks($id)
     {
-        $tasks = User::findOrFail($id)->tasks;
+        $tasks = Task::all()->where('user_id',$id);
         return view('userTasks.index',compact('tasks','id'));
     }
 
@@ -19,7 +19,7 @@ class DashboardController extends Controller
         return view('userTasks.create',compact('id'));
     }
 
-    public function store(Request $request, $userID)
+    public function store(Request $request)
     {
         $task = new Task();
         if(!$request->has('status'))$status=false;else$status=true;
@@ -27,10 +27,9 @@ class DashboardController extends Controller
         $task->title = $request->title;
         $task->description =$request->description;
         $task->status = $status;
-        $task->user_id =  $userID;
+        $task->user_id =  $request->user_id;
         $task->save();
-       
-        return redirect()->route('userTasks.index',$userID);
+        return redirect()->route('userTasks.index',$request->user_id);
 
     }
 
@@ -39,25 +38,31 @@ class DashboardController extends Controller
 
     // }
 
-    public function edit($id, $userID)
+    public function edit($id)
     {
         $task = Task::findOrFail($id);
-        $user = $userID;
-        return view('userTasks.edit', compact('task','user'));
+        return view('userTasks.edit', compact('task'));
     }
 
-    public function update(Request $request, $userID)
+    public function update(Request $request)
     {
+
         $task = Task::findOrFail($request->id);
 
         if(!$request->has('status'))$status=false;else$status=true;
         $task->title = $request->title;
         $task->description =$request->description;
         $task->status = $status;
-        $task->user_id =  $userID;
+        $task->user_id = $request->user_id;
         $task->save();
-        return redirect()->route('userTasks.index',$task->user_id);
+        return redirect()->route('userTasks.index',$request->user_id);
 
+    }
+
+    public function delete($id)
+    {
+        $task = Task::findOrFail($id);
+        return view('userTasks.delete', compact('task'));
     }
 
     public function destroy($id)

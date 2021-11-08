@@ -23,26 +23,16 @@
             </ul>
         </div>
         <div  class="d-flex flex-column vh-100 flex-expand">
-            <form method="POST" action="{{ route('userTasks.store') }}">
-              @csrf
-              @method('POST')
-                <div class="mb-3">
-                  {{-- user_id hidden input --}}
-                  <input type="hidden" class="form-check-input" id="user_id" name="user_id" value={{$id}}>
-                  {{-- rest of the form --}}
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                  <label for="description" class="form-label">Description</label>
-                  <input type="text" class="form-control" id="description" name="description">
-                </div>
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="status" name="status">
-                  <label class="form-check-label" for="status">Complete</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+            <form method="POST" action="{{route('userTasks.destroy',$task->id)}}">
+                @csrf
+                @method('DELETE')
+                <label> ARE YOU SURE YOU WANT TO DELETE THE TASK</label>
+                <button type="submit" class="btn btn-primary">Delete Task</button>
+                <a href="{{url()->previous()}}" class="btn btn-primary">Go Back</a>
+            </form>
+           
         </div>
+
+          
     </body>
 </html>
