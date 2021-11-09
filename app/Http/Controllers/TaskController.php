@@ -9,7 +9,8 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all(); // filter
+        $tasks = Task::all()->where('user_id', auth()->user()->id);
+        // return $tasks;
         return view('tasks.index',compact('tasks'));
     }
 
@@ -26,6 +27,7 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->description =$request->description;
         $task->status = $status;
+        $task->user_id = auth()->user()->id;
         $task->save();
        
         return redirect()->route('tasks.index');
@@ -33,26 +35,20 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        echo "ttt";
     }
 
-    public function edit($id)
+    public function edit(Task $task)
     {
-        $task = Task::findOrFail($id);
-        return view('tasks.edit', compact('task'));
+        return view('tasks.edit', ['task'=>$task]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        $task = Task::findOrFail($id);
-
-        if(!$request->has('status'))$status=false;else$status=true;
         $task->title = $request->title;
         $task->description =$request->description;
-        $task->status = $status;
+        if(!$request->has('status'))$task->status=false;else$task->status=true;
         $task->save();
         return redirect()->route('tasks.index');
-
     }
 
     public function destroy($id)
