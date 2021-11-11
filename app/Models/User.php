@@ -45,4 +45,7 @@ class User extends Authenticatable
     public function tasks() {
         return $this->hasMany(Task::class);
     }
+    public function subtasks() {
+        return $this->hasManyThrough(SubTask::class,Task::class);
+    }
 }

@@ -19,29 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
-
-// Route::get('/dash', function () {
-//     return view('dashboard');
-// });
-
 Route::middleware(['auth'])->group(function () {
     Route::resource('tasks', TaskController::class);
+    Route::get('tasks/{task}', [App\Http\Controllers\TaskController::class, 'delete'])->name('tasks.delete');
 });
-
-
-
-
-//usertasks not updated
-    Route::get('/dash/{id}', [DashboardController::class,'userTasks'])->name('userTasks.index');
-    Route::get('/dash/{id}/create', [DashboardController::class,'createUserTasks'])->name('userTasks.create');
-    Route::post('/dash/', [DashboardController::class,'store'])->name('userTasks.store');
-    Route::get('/dash/edit/{taskID}', [DashboardController::class,'edit'])->name('userTasks.edit');
-    Route::put('/dash/', [DashboardController::class,'update'])->name('userTasks.update');
-    Route::get('/dash/delete/{taskID}', [DashboardController::class,'delete'])->name('userTasks.delete');
-    Route::delete('/dash/{id}/', [DashboardController::class,'destroy'])->name('userTasks.destroy');
 
 Auth::routes();
 

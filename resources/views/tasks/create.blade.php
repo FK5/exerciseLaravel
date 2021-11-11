@@ -20,5 +20,17 @@
       </div>
       <button type="submit" class="btn btn-primary">Create</button>
     </form>
+    @if ($errors->any())
+    <div class="mt-5">
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
+        
+    @endif
 
 @endsection
